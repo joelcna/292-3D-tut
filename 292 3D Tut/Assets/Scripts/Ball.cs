@@ -19,6 +19,21 @@ public class Ball : MonoBehaviour
         
     }
 
+    public bool IsBallRed()
+    {
+        return isRed;
+    }
+
+    public bool IsCueBall()
+    {
+        return isCueBall;
+    }
+
+    public bool IsEightBall()
+    {
+        return is8Ball;
+    }
+
     public void BallSetup(bool red)
     {
         isRed = red;
@@ -35,16 +50,6 @@ public class Ball : MonoBehaviour
     public void MakeCueBall()
     {
         isCueBall = true;
-    }
-
-    public bool IsCueBall()
-    {
-        return isCueBall;
-    }
-
-    public bool IsEightBall()
-    {
-        return is8Ball;
     }
 
     public void MakeEightBall()
