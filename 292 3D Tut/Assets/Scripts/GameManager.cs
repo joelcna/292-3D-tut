@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.VersionControl;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject restartButton;
 
-    [SerializeField] GameObject headPosition;
+    [SerializeField] Transform headPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,12 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void RestartTheGame()
+    {
+        SceneManager.LoadScene(0);
+
     }
 
     bool Scratch()
@@ -93,6 +100,66 @@ public class GameManager : MonoBehaviour
 
     bool CheckBall(Ball ball)
     {
+        if (ball.IsCueBall())
+        {
+            if (Scratch())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (ball.IsEightBall())
+        {
+            if (currentPlayer == CurrentPlayer.Player1)
+            {
+                if (isWinningShotForPlayer1)
+                {
+                    Win("Player 1");
+                    return true;
+                }
+            }
+            else
+            {
+                if (isWinningShotForPlayer2)
+                {
+                    Win("Player 2");
+                    return true;
+                }
+            }
+            EarlyEightBall();
+        }
+        else
+        {
+            if (ball.IsBallRed())
+            {
+                player1BallsRemaining--;
+                player1BallsText.text = "Player 1 Balls Remaining: " + player1BallsRemaining;
+                if (player1BallsRemaining <= 0)
+                {
+                    isWinningShotForPlayer1 = true;
+                }
+                if (currentPlayer != CurrentPlayer.Player1)
+                {
+                    NextPlayerTurn();
+                }
+            }
+            else
+            {
+                player2BallsRemaining--;
+                player2BallsText.text = "Player 2 Balls Remaining: " + player2BallsRemaining;
+                if (player2BallsRemaining <= 0)
+                {
+                    isWinningShotForPlayer2 = true;
+                }
+                if (currentPlayer != CurrentPlayer.Player2)
+                {
+                    NextPlayerTurn();
+                }
+            }
+        }
         return true;
     }
 
@@ -119,7 +186,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            currentPlayer = CurrentPlayer.Player2;
+            currentPlayer = CurrentPlayer.Player1;
             currentTurnText.text = "Current Turn: Player 1";
         }
     }
@@ -135,7 +202,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 other.gameObject.transform.position = headPosition.position;
-                other.gameObject.GetComponent<Rigidbody>()
+                other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                other.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             }
         }
     }
