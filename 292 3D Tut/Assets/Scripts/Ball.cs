@@ -56,6 +56,5 @@ public class Ball : MonoBehaviour
     {
         is8Ball = true;
         GetComponent<Renderer>().material.color = Color.black;
-
     }
 }
