@@ -72,13 +72,13 @@ public class GameManager : MonoBehaviour
             {
                 isWaitingForBallMovementToStop = false;
                 if (willSwapPlayers || !ballPocketed)
-                {
+                { 
                     NextPlayerTurn();
                 }
                 else
                 {
                     SwitchCameras();
-                }
+                } 
                 currentTimer = shotTimer;
                 ballPocketed = false;
             }
@@ -249,7 +249,7 @@ public class GameManager : MonoBehaviour
     {
         if (other.gameObject.tag == "Ball")
         {
-            ballPocketed = true;
+            ballPocketed = true;  
             if (CheckBall(other.gameObject.GetComponent<Ball>()))
             {
                 Destroy(other.gameObject);

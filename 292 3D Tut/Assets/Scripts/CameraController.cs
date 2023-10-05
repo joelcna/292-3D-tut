@@ -45,8 +45,7 @@ public class CameraController : MonoBehaviour
 
             transform.RotateAround(cueBall.position, Vector3.up, horizontalInput); 
         }
-
-        shoot();
+        Shoot();
     }
 
     public void ResetCamera()
@@ -57,16 +56,16 @@ public class CameraController : MonoBehaviour
         transform.localEulerAngles =  new Vector3(downAngle, transform.localEulerAngles.y, 0);
     }
 
-    void shoot()
+    void Shoot()
     {
         if (gameObject.GetComponent<Camera>().enabled)
         {
-            if (Input.GetButtonDown("Fire 1") && !isTakingShot)
+            if (Input.GetButtonDown("Fire1") && !isTakingShot)
             {
                 isTakingShot = true;
                 savedMousePosition = 0f;
             }
-            else if (isTakingShot) 
+            else if (isTakingShot)
             {
                 if (savedMousePosition + Input.GetAxis("Mouse Y") <= 0)
                 {
@@ -75,11 +74,11 @@ public class CameraController : MonoBehaviour
                     {
                         savedMousePosition = maxDrawDistance;
                     }
-                    float powerValueNumber = ((savedMousePosition = 0) / (maxDrawDistance - 0)) * (100 - 0) + 0;
+                    float powerValueNumber = ((savedMousePosition - 0) / (maxDrawDistance - 0)) * (100 - 0) + 0;
                     int powerValueInt = Mathf.RoundToInt(powerValueNumber);
                     powerText.text = "Power: " + powerValueInt + "%";
                 }
-                if (Input.GetButtonDown("Fire 1"))
+                if (Input.GetButtonDown("Fire1"))
                 {
                     Vector3 hitDirection = transform.forward;
                     hitDirection = new Vector3(hitDirection.x, 0, hitDirection.z).normalized;
